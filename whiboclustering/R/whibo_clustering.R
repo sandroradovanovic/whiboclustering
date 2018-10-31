@@ -386,8 +386,11 @@ plot.whibo_cluster <- function(model, data)
     {
       stop('There is discrepency between data and model')
     }
-    new_data <- rbind.data.frame(eval(call(name = as.character(wc_norm_types$Method[tolower(wc_norm_types$Type) == tolower(model$params$normalization_type)]), data)), model$centroids[, !grepl('WCCluster', colnames(model$centroids))])
-    plot(new_data, cex = c(rep(0.7, 150), rep(1, nrow(model$centroids))), pch = c(rep(1, 150), rep(4, nrow(model$centroids))), col = c(model$assignments, seq(1:nrow(model$centroids))))
+
+    new_data <- eval(call(name = as.character(wc_norm_types$Method[tolower(wc_norm_types$Type) == tolower(model$params$normalization_type)]), data, model$params$normalization_model))
+    new_data <- rbind.data.frame(new_data$data, model$centroids[, !grepl('WCCluster', colnames(model$centroids))])
+
+    plot(new_data, cex = c(rep(0.7, nrow(new_data) - nrow(model$centroids)), rep(1, nrow(model$centroids))), pch = c(rep(1, nrow(new_data) - nrow(model$centroids)), rep(4, nrow(model$centroids))), col = c(model$assignments, seq(1:nrow(model$centroids))))
   }
 }
 
