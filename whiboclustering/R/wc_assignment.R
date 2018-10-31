@@ -15,7 +15,6 @@ wc_assignment <- function(data, centroids, assignment_type)
 
 wc_assign_euclidean <- function(data, centroids)
 {
-  require(SNFtool)
   assignment <- apply(X = as.matrix(dist(rbind(data, centroids[, !grepl("WCCluster", colnames(centroids))]), method = 'euclidean'))[1:nrow(data), (nrow(data) + 1):(nrow(data) + nrow(centroids))], MARGIN = 1, FUN = function(x) {which.min(x)})
   assignment <- as.numeric(assignment)
   return(assignment)
@@ -198,7 +197,7 @@ wc_assign_whittaker <- function(data, centroids)
   return(assignment)
 }
 
-wc_assign_types <<- data.frame()
+wc_assign_types <- data.frame()
 
 wc_assign_types <- rbind.data.frame(wc_assign_types, data.frame('Type' = 'Euclidean', 'Method' = 'wc_assign_euclidean'))
 wc_assign_types <- rbind.data.frame(wc_assign_types, data.frame('Type' = 'Squared Euclidean', 'Method' = 'wc_assign_squared_euclidean'))

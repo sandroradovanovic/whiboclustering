@@ -401,7 +401,6 @@ wc_recalc_online_midrange <- function(data, assignment, assignment_type)
 }
 
 wc_recalculate_types <- data.frame()
-assign(x = "wc_recalculate_types", value = wc_recalculate_types, envir = globalenv())
 
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Mean', 'Method' = 'wc_recalc_mean'))
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Median', 'Method' = 'wc_recalc_median'))

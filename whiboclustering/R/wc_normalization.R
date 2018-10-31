@@ -34,85 +34,251 @@ wc_normalize <- function(data, normalization_type)
   return(norm_data)
 }
 
-wc_norm_no <- function(data)
+wc_norm_no <- function(data, model = NULL)
 {
   norm_data <- data
-  return(norm_data)
+
+  output <- list('data' = norm_data, 'model' = NULL)
+
+  return(output)
 }
 
-wc_norm_z <- function(data)
+wc_norm_z <- function(data, model = NULL)
 {
-  norm_data <- scale(x = data, center = TRUE, scale = TRUE)
-  return(norm_data)
+  if(is.null(model))
+  {
+    norm_data <- scale(x = data, center = TRUE, scale = TRUE)
+    output <- list('data' = norm_data, 'model' = list('center' = attr(x = norm_data, which = 'scaled:center'), 'scale' = attr(x = norm_data, which = 'scaled:scale')))
+  }
+  else
+  {
+    norm_data <- scale(x = data, center = model$center, scale = model$scale)
+    output <- list('data' = norm_data, 'model' = model)
+  }
+
+
+  return(output)
 }
 
-wc_norm_l2 <- function(data)
+wc_norm_l2 <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {if(min(x, na.rm = TRUE) > 0) {x/sqrt(sum(x^2, na.rm = TRUE))} else {(x - min(x, na.rm = TRUE))/sqrt(sum((x - min(x, na.rm = TRUE) + 0.01)^2, na.rm = TRUE))} })
-  return(norm_data)
+  if(is.null(model))
+  {
+    model <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      model <<- append(model, sqrt(sum(x^2, na.rm = TRUE)))
+      x/sqrt(sum(x^2, na.rm = TRUE))
+    })
+  }
+  else
+  {
+    norm_data <- sweep(x = data, MARGIN = 2, STATS = model, FUN = '/')
+  }
+
+  output <- list('data' = norm_data, 'model' = model)
+  return(output)
 }
 
-wc_norm_l1 <- function(data)
+wc_norm_l1 <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {if(min(x, na.rm = TRUE) > 0) {x/sum(x, na.rm = TRUE)} else {(x - min(x, na.rm = TRUE))/(sum(x - min(x, na.rm = TRUE) + 0.01, na.rm = TRUE))}})
-  return(norm_data)
+  if(is.null(model))
+  {
+    model <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      model <<- append(model, sum(x, na.rm = TRUE))
+      x/sum(x, na.rm = TRUE)
+    })
+  }
+  else
+  {
+    norm_data <- sweep(x = data, MARGIN = 2, STATS = model, FUN = '/')
+  }
+
+  output <- list('data' = norm_data, 'model' = model)
+  return(output)
 }
 
-wc_norm_linf <- function(data)
+wc_norm_linf <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {if(min(x, na.rm = TRUE) > 0) {x/max(x, na.rm = TRUE)} else {(x - min(x, na.rm = TRUE))/(max(x - min(x, na.rm = TRUE) + 0.01, na.rm = TRUE))}})
-  return(norm_data)
+  if(is.null(model))
+  {
+    model <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      model <<- append(model, max(x, na.rm = TRUE))
+      x/max(x, na.rm = TRUE)
+    })
+  }
+  else
+  {
+    norm_data <- sweep(x = data, MARGIN = 2, STATS = model, FUN = '/')
+  }
+
+  output <- list('data' = norm_data, 'model' = model)
+  return(output)
 }
 
-wc_norm_max_min <- function(data)
+wc_norm_max_min <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {(x - min(x, na.rm = TRUE))/diff(range(x, na.rm = TRUE)) + 0.01})
-  return(norm_data)
+  if(is.null(model))
+  {
+    mins <- c()
+    diffs <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      mins <<- append(mins, min(x, na.rm = TRUE))
+      diffs <<- append(diffs, diff(range(x, na.rm = TRUE)))
+      (x - min(x, na.rm = TRUE))/diff(range(x, na.rm = TRUE))
+    })
+    output <- list('data' = norm_data, 'model' = list('mins' = mins, 'diffs' = diffs))
+  }
+  else
+  {
+    norm_data <- sweep(x = sweep(x = data, MARGIN = 2, STATS = model$mins, FUN = '-'), MARGIN = 2, STATS = model$diffs, FUN = '/')
+    output <- list('data' = norm_data, 'model' = model)
+  }
+  return(output)
 }
 
-wc_norm_mean <- function(data)
+wc_norm_mean <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {(x - mean(x, na.rm = TRUE))/diff(range(x, na.rm = TRUE)) + 0.01})
-  return(norm_data)
+  if(is.null(model))
+  {
+    means <- c()
+    diffs <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      means <<- append(means, mean(x, na.rm = TRUE))
+      diffs <<- append(diffs, diff(range(x, na.rm = TRUE)))
+      (x - mean(x, na.rm = TRUE))/diff(range(x, na.rm = TRUE))
+    })
+    output <- list('data' = norm_data, 'model' = list('mins' = mins, 'diffs' = diffs))
+  }
+  else
+  {
+    norm_data <- sweep(x = sweep(x = data, MARGIN = 2, STATS = model$means, FUN = '-'), MARGIN = 2, STATS = model$diffs, FUN = '/')
+    output <- list('data' = norm_data, 'model' = model)
+  }
+  return(output)
 }
 
-wc_norm_log <- function(data)
+wc_norm_log <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {if(min(x, na.rm = TRUE) > exp(1)) {log(x = x)/log(x = prod(x, na.rm = TRUE))} else {log(x = (x - min(x, na.rm = TRUE) + 0.01 + exp(1)))/log(x = prod(x - min(x, na.rm = TRUE) + 0.01 + exp(1)))}})
-  return(norm_data)
+  if(is.null(model))
+  {
+    model <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      model <<- append(model, log(x = prod(x, na.rm = TRUE)))
+      log(x = x)/log(x = prod(x, na.rm = TRUE))
+    })
+  }
+  else
+  {
+    norm_data <- sweep(x = log(data), MARGIN = 2, STATS = model, FUN = '/')
+  }
+
+  output <- list('data' = norm_data, 'model' = model)
+  return(output)
 }
 
-wc_norm_non_monotonic <- function(data)
+wc_norm_non_monotonic <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {exp(-(x - max(x, na.rm = TRUE) + 0.01)^2/var(x, na.rm = TRUE))})
-  return(norm_data)
+  if(is.null(model))
+  {
+    maxs <- c()
+    vars <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      maxs <<- append(maxs, max(x, na.rm = TRUE))
+      vars <<- append(vars, var(x, na.rm = TRUE))
+      exp(-(x - max(x, na.rm = TRUE))^2/var(x, na.rm = TRUE))
+    })
+    output <- list('data' = norm_data, 'model' = list('maxs' = maxs, 'vars' = vars))
+  }
+  else
+  {
+    norm_data <- exp(-sweep(x = sweep(x = data, MARGIN = 2, STATS = model$maxs, FUN = '-')^2, MARGIN = 2, STATS = model$vars, FUN = '/'))
+    output <- list('data' = norm_data, 'model' = model)
+  }
+
+  return(output)
 }
 
-wc_norm_comprehensive <- function(data)
+wc_norm_comprehensive <- function(data, model = NULL)
 {
-  norm_data <- apply(X = data, MARGIN = 2, FUN = function(x) {1 - exp(abs(x - min(x, na.rm = TRUE))/(min(x, na.rm = TRUE) - max(x, na.rm = TRUE)))})
-  return(norm_data)
+  if(is.null(model))
+  {
+    mins <- c()
+    maxs <- c()
+    norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
+    {
+      mins <<- append(mins, min(x, na.rm = TRUE))
+      maxs <<- append(maxs, max(x, na.rm = TRUE))
+      1 - exp(abs(x - min(x, na.rm = TRUE))/(min(x, na.rm = TRUE) - max(x, na.rm = TRUE)))
+    })
+    output <- list('data' = norm_data, 'model' = list('mins' = mins, 'maxs' = maxs))
+  }
+  else
+  {
+    norm_data <- 1 - exp(sweep(x = abs(sweep(x = data, MARGIN = 2, STATS = model$mins, FUN = '-')), MARGIN = 2, STATS = model$mins - model$maxs, FUN = '/'))
+    output <- list('data' = norm_data, 'model' = model)
+  }
+
+  return(output)
 }
 
-wc_norm_decimal_scaling <- function(data)
+wc_norm_decimal_scaling <- function(data, model = NULL)
 {
-  norm_data <- scale(x = data, center = FALSE, scale = 10^(ceiling(log10(apply(X = abs(data), MARGIN = 2, FUN = max)))))
-  return(norm_data)
+  if(is.null(model))
+  {
+    norm_data <- scale(x = data, center = FALSE, scale = 10^(ceiling(log10(apply(X = abs(data), MARGIN = 2, FUN = max)))))
+    output <- list('data' = norm_data, 'model' = attr(x = norm_data, which = 'scaled:scale'))
+  }
+  else
+  {
+    norm_data <- scale(x = data, center = FALSE, scale = model)
+    output <- list('data' = norm_data, 'model' = model)
+  }
+
+  return(output)
 }
 
-wc_norm_sigmoid <- function(data)
+wc_norm_sigmoid <- function(data, model = NULL)
 {
-  norm_data <- (1 - exp(-scale(x = data, center = TRUE, scale = TRUE)))/(1 + exp(-scale(x = data, center = TRUE, scale = TRUE)))
-  return(norm_data)
+  if(is.null(model))
+  {
+    norm_data <- (1 - exp(-scale(x = data, center = TRUE, scale = TRUE)))/(1 + exp(-scale(x = data, center = TRUE, scale = TRUE)))
+    output <- list('data' = norm_data, 'model' = list('center' = attr(x = norm_data, which = 'scaled:center'), 'scale' = attr(x = norm_data, which = 'scaled:scale')))
+  }
+  else
+  {
+    norm_data <- (1 - exp(-scale(x = data, center = model$center, scale = model$scale)))/(1 + exp(-scale(x = data, center = model$center, scale = model$scale)))
+    output <- list('data' = norm_data, 'model' = model)
+  }
+
+  return(output)
 }
 
-wc_norm_softmax <- function(data)
+wc_norm_softmax <- function(data, model = NULL)
 {
-  norm_data <- 1/(1 + exp(-scale(x = data, center = TRUE, scale = TRUE)))
-  return(norm_data)
+  if(is.null(model))
+  {
+    norm_data <- 1/(1 + exp(-scale(x = data, center = TRUE, scale = TRUE)))
+    output <- list('data' = norm_data, 'model' = list('center' = attr(x = norm_data, which = 'scaled:center'), 'scale' = attr(x = norm_data, which = 'scaled:scale')))
+  }
+  else
+  {
+    norm_data <- 1/(1 + exp(-scale(x = data, center = model$center, scale = model$scale)))
+    output <- list('data' = norm_data, 'model' = model)
+  }
+
+  return(output)
 }
 
-wc_norm_types <<- data.frame()
+wc_norm_types <- data.frame()
 
 wc_norm_types <- rbind.data.frame(wc_norm_types, data.frame('Type' = 'No', 'Method' = 'wc_norm_no'))
 wc_norm_types <- rbind.data.frame(wc_norm_types, data.frame('Type' = 'Z', 'Method' = 'wc_norm_z'))

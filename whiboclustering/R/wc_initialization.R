@@ -139,7 +139,7 @@ wc_init_ccia <- function(data, k)
   return(centroids)
 }
 
-wc_init_types <<- data.frame()
+wc_init_types <- data.frame()
 
 wc_init_types <- rbind.data.frame(wc_init_types, data.frame('Type' = 'Random', 'Method' = 'wc_init_random'))
 wc_init_types <- rbind.data.frame(wc_init_types, data.frame('Type' = 'Forgy', 'Method' = 'wc_init_forgy'))
