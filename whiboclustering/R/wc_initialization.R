@@ -1,3 +1,10 @@
+#' General Component for Initialization of Cluster Representatives.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives.
+#' @param initialization_type String which signal which initialization type to be used. Check \code{wc_init_types} for possible values.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_initialize <- function(data, k = 3, initialization_type)
 {
   # CHECKING FOR ERRORS
@@ -12,15 +19,27 @@ wc_initialize <- function(data, k = 3, initialization_type)
   return(centroids)
 }
 
+#' Random Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_random <- function(data, k = 3)
 {
-  centroids <- as.data.frame(apply(X = data, MARGIN = 2, FUN = function(x) {runif(n = k, min = min(x), max = max(x))}))
+  centroids <- as.data.frame(apply(X = data, MARGIN = 2, FUN = function(x) {stats::runif(n = k, min = min(x), max = max(x))}))
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
   centroids <- centroids[c('WCCluster', setdiff(names(centroids), 'WCCluster'))]
   return(centroids)
 }
 
+#' Forgy algorithm Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_forgy <- function(data, k = 3)
 {
   centroids <- data[sample(x = 1:dim(data)[1], size = k, replace = FALSE), ]
@@ -30,6 +49,12 @@ wc_init_forgy <- function(data, k = 3)
   return(centroids)
 }
 
+#' K-Means++ Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_kmeansplusplus <- function(data, k = 3)
 {
   centroids <- numeric(k)
@@ -49,6 +74,12 @@ wc_init_kmeansplusplus <- function(data, k = 3)
   return(centroids)
 }
 
+#' KKZ Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_kkz <- function(data, k)
 {
   centroids <- data[0, ]
@@ -65,11 +96,17 @@ wc_init_kkz <- function(data, k)
   return(centroids)
 }
 
+#' PCA Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_pca <- function(data, k)
 {
-  pca_model <- prcomp(data)
+  pca_model <- stats::prcomp(data)
 
-  centroids <- t(apply(X = data, MARGIN = 2, FUN = mean) + pca_model$rotation[, 1:k] * apply(X = data, MARGIN = 2, FUN = sd))
+  centroids <- t(apply(X = data, MARGIN = 2, FUN = mean) + pca_model$rotation[, 1:k] * apply(X = data, MARGIN = 2, FUN = stats::sd))
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -77,13 +114,19 @@ wc_init_pca <- function(data, k)
   return(centroids)
 }
 
+#' DIANA Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_diana <- function(data, k)
 {
-  require(cluster)
-  model <- diana(x = data, diss = FALSE, stop.at.k = k)
+  #require(cluster)
+  model <- cluster::diana(x = data, diss = FALSE, stop.at.k = k)
 
-  cuts <- cutree(tree = model, k = k)
-  centroids <- aggregate(data, by = list(cuts), FUN = mean)[, 2:(dim(data)[2] + 1)]
+  cuts <- stats::cutree(tree = model, k = k)
+  centroids <- stats::aggregate(data, by = list(cuts), FUN = mean)[, 2:(dim(data)[2] + 1)]
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -91,13 +134,19 @@ wc_init_diana <- function(data, k)
   return(centroids)
 }
 
+#' AGNES Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_agnes <- function(data, k)
 {
-  require(cluster)
-  model <- agnes(x = data, diss = FALSE, method = 'average')
+  #require(cluster)
+  model <- cluster::agnes(x = data, diss = FALSE, method = 'average')
 
-  cuts <- cutree(tree = model, k = k)
-  centroids <- aggregate(data, by = list(cuts), FUN = mean)[, 2:(dim(data)[2] + 1)]
+  cuts <- stats::cutree(tree = model, k = k)
+  centroids <- stats::aggregate(data, by = list(cuts), FUN = mean)[, 2:(dim(data)[2] + 1)]
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -105,13 +154,19 @@ wc_init_agnes <- function(data, k)
   return(centroids)
 }
 
+#' Ward algorithm Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_ward <- function(data, k)
 {
-  require(cluster)
-  model <- agnes(x = data, diss = FALSE, method = 'ward')
+  #require(cluster)
+  model <- cluster::agnes(x = data, diss = FALSE, method = 'ward')
 
-  cuts <- cutree(tree = model, k = k)
-  centroids <- aggregate(data, by = list(cuts), FUN = mean)[, 2:(dim(data)[2] + 1)]
+  cuts <- stats::cutree(tree = model, k = k)
+  centroids <- stats::aggregate(data, by = list(cuts), FUN = mean)[, 2:(dim(data)[2] + 1)]
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -119,9 +174,15 @@ wc_init_ward <- function(data, k)
   return(centroids)
 }
 
+#' Quantile Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_quantile <- function(data, k)
 {
-  centroids <- apply(X = data, MARGIN = 2, FUN = function(x) {quantile(x = x, probs = (2 * 1:k - 1)/(2 * k))})
+  centroids <- apply(X = data, MARGIN = 2, FUN = function(x) {stats::quantile(x = x, probs = (2 * 1:k - 1)/(2 * k))})
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -129,9 +190,15 @@ wc_init_quantile <- function(data, k)
   return(centroids)
 }
 
+#' CCIA Cluster Representatives initialization.
+#'
+#' @param data A dataset for which Cluster Representatives needs to be initialized.
+#' @param k A number of Cluster Representatives to be initialized.
+#' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_ccia <- function(data, k)
 {
-  centroids <- apply(X = data, MARGIN = 2, FUN = function(x) {mean(x, na.rm = TRUE) + sd(x, na.rm = TRUE) * qnorm((2 * 1:k - 1)/(2 * k))})
+  centroids <- apply(X = data, MARGIN = 2, FUN = function(x) {mean(x, na.rm = TRUE) + stats::sd(x, na.rm = TRUE) * stats::qnorm((2 * 1:k - 1)/(2 * k))})
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -139,6 +206,8 @@ wc_init_ccia <- function(data, k)
   return(centroids)
 }
 
+#' Data frame for possible values of initialization types.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_types <- data.frame()
 
 wc_init_types <- rbind.data.frame(wc_init_types, data.frame('Type' = 'Random', 'Method' = 'wc_init_random'))

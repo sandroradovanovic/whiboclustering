@@ -1,3 +1,9 @@
+#' General (Optional) Component for Normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param normalization_type String which signal which normalization type to be used. Check \code{wc_norm_types} for possible values.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_normalize <- function(data, normalization_type)
 {
   # CHECKING FOR ERRORS
@@ -34,6 +40,12 @@ wc_normalize <- function(data, normalization_type)
   return(norm_data)
 }
 
+#' Ignore normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_no <- function(data, model = NULL)
 {
   norm_data <- data
@@ -43,6 +55,12 @@ wc_norm_no <- function(data, model = NULL)
   return(output)
 }
 
+#' Z transformation of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_z <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -60,6 +78,12 @@ wc_norm_z <- function(data, model = NULL)
   return(output)
 }
 
+#' \eqn{l_2} normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_l2 <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -80,6 +104,12 @@ wc_norm_l2 <- function(data, model = NULL)
   return(output)
 }
 
+#' \eqn{l_1} normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_l1 <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -100,6 +130,12 @@ wc_norm_l1 <- function(data, model = NULL)
   return(output)
 }
 
+#' \eqn{l_\infty} normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_linf <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -120,6 +156,12 @@ wc_norm_linf <- function(data, model = NULL)
   return(output)
 }
 
+#' Max-Min normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_max_min <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -142,6 +184,12 @@ wc_norm_max_min <- function(data, model = NULL)
   return(output)
 }
 
+#' Mean (Max-Min like) normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_mean <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -154,7 +202,7 @@ wc_norm_mean <- function(data, model = NULL)
       diffs <<- append(diffs, diff(range(x, na.rm = TRUE)))
       (x - mean(x, na.rm = TRUE))/diff(range(x, na.rm = TRUE))
     })
-    output <- list('data' = norm_data, 'model' = list('mins' = mins, 'diffs' = diffs))
+    output <- list('data' = norm_data, 'model' = list('means' = means, 'diffs' = diffs))
   }
   else
   {
@@ -164,6 +212,12 @@ wc_norm_mean <- function(data, model = NULL)
   return(output)
 }
 
+#' Logarithmic normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_log <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -184,6 +238,12 @@ wc_norm_log <- function(data, model = NULL)
   return(output)
 }
 
+#' Non-monotonic normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_non_monotonic <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -193,8 +253,8 @@ wc_norm_non_monotonic <- function(data, model = NULL)
     norm_data <- apply(X = data, MARGIN = 2, FUN = function(x)
     {
       maxs <<- append(maxs, max(x, na.rm = TRUE))
-      vars <<- append(vars, var(x, na.rm = TRUE))
-      exp(-(x - max(x, na.rm = TRUE))^2/var(x, na.rm = TRUE))
+      vars <<- append(vars, stats::var(x, na.rm = TRUE))
+      exp(-(x - max(x, na.rm = TRUE))^2/stats::var(x, na.rm = TRUE))
     })
     output <- list('data' = norm_data, 'model' = list('maxs' = maxs, 'vars' = vars))
   }
@@ -207,6 +267,12 @@ wc_norm_non_monotonic <- function(data, model = NULL)
   return(output)
 }
 
+#' Comprehensive normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_comprehensive <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -230,6 +296,12 @@ wc_norm_comprehensive <- function(data, model = NULL)
   return(output)
 }
 
+#' Decimal scaling of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_decimal_scaling <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -246,6 +318,12 @@ wc_norm_decimal_scaling <- function(data, model = NULL)
   return(output)
 }
 
+#' Sigmoid normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_sigmoid <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -262,6 +340,12 @@ wc_norm_sigmoid <- function(data, model = NULL)
   return(output)
 }
 
+#' Softmax normalization of data.
+#'
+#' @param data A dataset which needs to be normalized.
+#' @param model Additional data needed for future data to be normalized using same normalization technique.
+#' @return As a result normalized data are obtained. Result is in for of data.frame or data.matrix.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_softmax <- function(data, model = NULL)
 {
   if(is.null(model))
@@ -278,6 +362,8 @@ wc_norm_softmax <- function(data, model = NULL)
   return(output)
 }
 
+#' Data frame for possible values of normalization types.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_types <- data.frame()
 
 wc_norm_types <- rbind.data.frame(wc_norm_types, data.frame('Type' = 'No', 'Method' = 'wc_norm_no'))

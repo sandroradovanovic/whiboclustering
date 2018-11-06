@@ -1,4 +1,4 @@
-setClass(Class = 'whibo_cluster', representation = 'list')
+methods::setClass(Class = 'whibo_cluster', representation = 'list')
 
 source(file = 'R/wc_normalization.R')
 source(file = 'R/wc_initialization.R')
@@ -6,14 +6,39 @@ source(file = 'R/wc_assignment.R')
 source(file = 'R/wc_recalculate.R')
 source(file = 'R/wc_cluster_performance.R')
 
+#' Find Cluster model using White-Box Cluster Algorithm Design.
+#'
+#' @param data Data on which clustering should be performed.
+#' @param k Number of Cluster Representatives.
+#' @param normalization_type Which normalization should be used (look at \code{wc_norm_types} for possible values). Default value is \code{No}.
+#' @param cluster_initialization_type Which initialization of Cluster Representatives should be used (look at \code{wc_init_types} for possible values). Default value is \code{Random}.
+#' @param assignment_type Which assignment function should be used (look at \code{wc_assign_types} for possible values). Default value is \code{Euclidean}.
+#' @param recalculation_type Which function for updating Cluster Representatives should be used (look at \code{wc_recalculate_types} for possible values). Default value is \code{Mean}.
+#' @param max_iteration Number of iterations. Default value is 20.
+#' @param no_of_restarts Number of restarts of whole clustering procedure. Default value is 1.
+#' @return Object of type \code{whibo_cluster} which include Cluster Representatives (\code{centroids}), number of elements per cluster (\code{elements_per_cluster}), assignments (\code{assignments}), measures of cluster quality (\code{within_sum_of_squares}, \code{between_ss_div_total_ss} and \code{internal_measures_of_quality}), cluster models per iterations (\code{model_history}), iterations (\code{iterations}) and parameters used (\code{params})
+#' @details TODO
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @seealso \code{plot.whibo_cluster}, \code{predict.whibo_cluster}
+#' @examples
+#' data <- iris[, 1:4] #Take only numerical columns
+#'
+#' #Perform k-means clustering
+#' model <- whibo_clustering(data = data, k = 3)
+#' model
+#'
+#' #Perform some unorthodox clustering
+#' model <- whibo_clustering(data = data, k = 3,
+#'      normalization_type = 'Z', cluster_initialization_type = 'Ward',
+#'      assignment_type = 'Correlation', recalculation_type = 'Trimean')
 whibo_clustering <- function(data, k = 3,
                              normalization_type = 'No', cluster_initialization_type = 'Random',
                              assignment_type = 'Euclidean', recalculation_type = 'Mean',
                              max_iteration = 20, no_of_restarts = 1)
 {
   #REQUIRES
-  require(clusterCrit)
-  require(SNFtool)
+  #require(clusterCrit)
+  #require(SNFtool)
 
   #DATA NORMALIZATION
   model <- wc_normalize(data = data, normalization_type = normalization_type)
@@ -94,7 +119,7 @@ whibo_clustering <- function(data, k = 3,
     between_ss <- wc_eval_between_sum_of_squares(data = data, centroids = last_centroids, assignment = assignments)
     total_ss <- wc_eval_total_sum_of_squares(data = data)
 
-    evaluation <- intCriteria(traj = as.matrix(data), part = as.integer(assignments), crit = 'all')
+    evaluation <- clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignments), crit = 'all')
 
     output <- list('centroids' = centroids, 'elements_per_cluster' = elements_per_cluster, 'assignments' = assignments,
                    'within_sum_of_squares' = within_ss, 'between_ss_total_ss' = sum(between_ss)/total_ss,
@@ -121,8 +146,21 @@ whibo_clustering <- function(data, k = 3,
   return(model_output)
 }
 
-show.whibo_cluster <- function(model)
+#' Show White-Box Cluster Algorithm model
+#'
+#' @param object WhiBo Cluster model.
+#' @return Summary text about Cluster model.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @seealso \code{print.whibo_cluster}, \code{head.whibo_cluster}, \code{summary.whibo_cluster}
+#' @examples
+#' data <- iris[, 1:4] #Numerical data only
+#'
+#' model <- whibo_clustering(data = data, k = 3)
+#' show(model)
+show.whibo_cluster <- function(object)
 {
+  model <- object
+
   cat('----------WhiBo cluster model----------')
   cat('\n')
   cat(sprintf('Normalization type:\t\t%s\n', model$params$normalization_type))
@@ -171,8 +209,24 @@ show.whibo_cluster <- function(model)
   cat('You can access history of cluster model (each iteration) and each restart phase')
 }
 
-print.whibo_cluster <- function(model)
+registerS3method("show","whibo_cluster","show.whibo_cluster", envir = getNamespace("whiboclustering"))
+
+#' Show White-Box Cluster Algorithm model
+#'
+#' @param x WhiBo Cluster model.
+#' @param ... None of those will be used.
+#' @return Summary text about Cluster model.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @seealso \code{show.whibo_cluster}, \code{head.whibo_cluster}, \code{summary.whibo_cluster}
+#' @examples
+#' data <- iris[, 1:4] #Numerical data only
+#'
+#' model <- whibo_clustering(data = data, k = 3)
+#' print(model)
+print.whibo_cluster <- function(x, ...)
 {
+  model <- x
+
   cat('----------WhiBo cluster model----------')
   cat('\n')
   cat(sprintf('Normalization type:\t\t%s\n', model$params$normalization_type))
@@ -221,8 +275,24 @@ print.whibo_cluster <- function(model)
   cat('You can access history of cluster model (each iteration) and each restart phase')
 }
 
-describe.whibo_cluster <- function(model)
+registerS3method("print","whibo_cluster","print.whibo_cluster", envir = getNamespace("whiboclustering"))
+
+#' Show White-Box Cluster Algorithm model
+#'
+#' @param object WhiBo Cluster model.
+#' @param ... None of those will be used.
+#' @return Summary text about Cluster model.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @seealso \code{print.whibo_cluster}, \code{head.whibo_cluster}, \code{show.whibo_cluster}
+#' @examples
+#' data <- iris[, 1:4] #Numerical data only
+#'
+#' model <- whibo_clustering(data = data, k = 3)
+#' summary(model)
+summary.whibo_cluster <- function(object, ...)
 {
+  model <- object
+
   cat('----------WhiBo cluster model----------')
   cat('\n')
   cat(sprintf('Normalization type:\t\t%s\n', model$params$normalization_type))
@@ -271,8 +341,24 @@ describe.whibo_cluster <- function(model)
   cat('You can access history of cluster model (each iteration) and each restart phase')
 }
 
-summary.whibo_cluster <- function(model)
+registerS3method("summary","whibo_cluster","summary.whibo_cluster", envir = getNamespace("whiboclustering"))
+
+#' Show White-Box Cluster Algorithm model
+#'
+#' @param x WhiBo Cluster model.
+#' @param ... None of those will be used.
+#' @return Summary text about Cluster model.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @seealso \code{print.whibo_cluster}, \code{show.whibo_cluster}, \code{summary.whibo_cluster}
+#' @examples
+#' data <- iris[, 1:4] #Numerical data only
+#'
+#' model <- whibo_clustering(data = data, k = 3)
+#' head(model)
+head.whibo_cluster <- function(x, ...)
 {
+  model <- x
+
   cat('----------WhiBo cluster model----------')
   cat('\n')
   cat(sprintf('Normalization type:\t\t%s\n', model$params$normalization_type))
@@ -321,64 +407,58 @@ summary.whibo_cluster <- function(model)
   cat('You can access history of cluster model (each iteration) and each restart phase')
 }
 
-head.whibo_cluster <- function(model)
+registerS3method("head","whibo_cluster","head.whibo_cluster", envir = getNamespace("whiboclustering"))
+
+#' Plot WhiBo Cluster Representatives
+#'
+#' @param x WhiBo Cluster model.
+#' @param ... None of those will be used.
+#' @return Line plot with Cluster representatives
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @examples
+#' data <- iris[, 1:4] #Numerical data only
+#'
+#' model <- whibo_clustering(data = data, k = 3)
+#' plot(model)
+plot.whibo_cluster <- function(x, ...)
 {
-  cat('----------WhiBo cluster model----------')
-  cat('\n')
-  cat(sprintf('Normalization type:\t\t%s\n', model$params$normalization_type))
-  cat(sprintf('Initialization type:\t\t%s\n', model$params$cluster_initialization_type))
-  cat(sprintf('Assignment type:\t\t%s\n', model$params$assignment_type))
-  cat(sprintf('Update repr. type:\t\t%s\n', model$params$recalculation_type))
-  cat('---------------------------------------')
+  model <- x
 
-  cat('\n')
-  cat('\n')
+  #Create basic plot without axes
+  graphics::matplot(t(model$centroids[, -1]), type = 'l', lty = rep(1, nrow(model$centroids)), xlab = 'Cluster Representatives', ylab = 'Value', axes = FALSE)
 
-  cat(sprintf('Centroids:\n'))
-  print(model$centroids[, !grepl('WCCluster', colnames(model$centroids))])
+  #Add axes
+  graphics::axis(2)
+  graphics::axis(1 ,at = 1:ncol(model$centroids[, -1]),labels = colnames(model$centroids[, -1]))
 
-  cat('\n')
-  cat('\n')
-
-  cat(sprintf('Assignments:\n'))
-  print(model$assignments)
-
-  cat('\n')
-
-  cat(sprintf('Number of elements per cluster:\n'))
-  print(as.data.frame(t(as.matrix(model$elements_per_cluster))), row.names = F)
-
-  cat('\n')
-  cat('\n')
-  cat(sprintf('Finished in %s iterations', model$model_history$num_of_iterations))
-
-  cat('\n')
-  cat('---------------------------------------')
-  cat('\n')
-
-  cat('within sum of squares per cluster\n')
-  cat(model$within_sum_of_squares)
-  cat('\n')
-  cat('\n')
-  cat(sprintf('Between SS / Total SS: \t%2.2f%%\n', round(model$between_ss_div_total_ss * 100, digits = 2)))
-  cat(sprintf('Davies-Bouldin index: \t%1.3f\n', model$internal_measures_of_quality$davies_bouldin))
-  cat(sprintf('Silhoutte index: \t%1.3f\n', model$internal_measures_of_quality$silhouette))
-  cat(sprintf('Dunn index: \t\t%1.3f\n', model$internal_measures_of_quality$dunn))
-  cat(sprintf('C index: \t\t%1.3f\n', model$internal_measures_of_quality$c_index))
-  cat('Many more internal cluster evaluation metric can be found in internal_measures_of_quality list...')
-
-  cat('\n\n')
-  cat('You can access history of cluster model (each iteration) and each restart phase')
+  #Add box around plot
+  graphics::box()
 }
 
-plot.whibo_cluster <- function(model, data)
+registerS3method("plot","whibo_cluster","plot.whibo_cluster", envir = getNamespace("whiboclustering"))
+
+#' Plot WhiBo Cluster Representatives
+#'
+#' @param model WhiBo Cluster model.
+#' @param data Data used for clustering (optional).
+#' @return Ploting pairs plot where Cluster representatives are presented with data (if provided).
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @examples
+#' data <- iris[, 1:4] #Numerical data only
+#'
+#' model <- whibo_clustering(data = data, k = 3)
+#' plot_pairs(model) #Ploting Cluster Representatives only
+#'
+#' plot_pairs(model, data) #Ploting Cluster Representatives and Data
+plot_pairs <- function(model, data)
 {
+
   #Plot pairs
   if (missing(data))
   {
-    plot(model$centroids[ , !grepl('WCCluster', colnames(model$centroids))], pch = 2, col = seq(1:nrow(model$centroids)))
+    graphics::plot(model$centroids[ , !grepl('WCCluster', colnames(model$centroids))], cex = 2, pch = 3, col = seq(1:nrow(model$centroids)))
 
-    print('Data points are not going to be presented on plot')
+    print('Data points are ommited from plot')
   }
   else
   {
@@ -390,12 +470,25 @@ plot.whibo_cluster <- function(model, data)
     new_data <- eval(call(name = as.character(wc_norm_types$Method[tolower(wc_norm_types$Type) == tolower(model$params$normalization_type)]), data, model$params$normalization_model))
     new_data <- rbind.data.frame(new_data$data, model$centroids[, !grepl('WCCluster', colnames(model$centroids))])
 
-    plot(new_data, cex = c(rep(0.7, nrow(new_data) - nrow(model$centroids)), rep(1, nrow(model$centroids))), pch = c(rep(1, nrow(new_data) - nrow(model$centroids)), rep(4, nrow(model$centroids))), col = c(model$assignments, seq(1:nrow(model$centroids))))
+    graphics::plot(new_data, cex = c(rep(0.6, nrow(new_data) - nrow(model$centroids)), rep(1.4, nrow(model$centroids))), pch = c(rep(1, nrow(new_data) - nrow(model$centroids)), rep(3, nrow(model$centroids))), col = c(model$assignments, seq(1:nrow(model$centroids))))
   }
 }
 
-predict.whibo_cluster <- function(model, data)
+#' Predict to which Cluster new data belongs
+#'
+#' @param object WhiBo Cluster model.
+#' @param data Data for which Cluster should be obtained.
+#' @param ... None of those will be used.
+#' @return Vector of assignments.
+#' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @examples
+#' data <- iris[1:100, 1:4] #Numerical data only and first 100 rows
+#'
+#' model <- whibo_clustering(data = data, k = 3)
+#' predict(object = model, data = iris[101:150, 1:4])
+predict.whibo_cluster <- function(object, data, ...)
 {
+  model <- object
   if(missing(data))
   {
     return(model$assignments)
@@ -406,3 +499,5 @@ predict.whibo_cluster <- function(model, data)
     return(wc_assignment(data = new_data$data, centroids = model$centroids, assignment_type = model$params$assignment_type))
   }
 }
+
+registerS3method("predict","whibo_cluster","predict.whibo_cluster", envir = getNamespace("whiboclustering"))
