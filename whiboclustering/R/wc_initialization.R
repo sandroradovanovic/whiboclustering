@@ -13,6 +13,16 @@ wc_initialize <- function(data, k = 3, initialization_type)
     stop('Please enter initialization function that is available in wc_init_types data frame')
   }
 
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   #INITIALIZE CLUSTER REPRESENTATIVES
   centroids <- eval(call(name = as.character(wc_init_types$Method[tolower(wc_init_types$Type) == tolower(initialization_type)]), data, k))
 
@@ -27,6 +37,16 @@ wc_initialize <- function(data, k = 3, initialization_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_random <- function(data, k = 3)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   centroids <- as.data.frame(apply(X = data, MARGIN = 2, FUN = function(x) {stats::runif(n = k, min = min(x), max = max(x))}))
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -42,7 +62,17 @@ wc_init_random <- function(data, k = 3)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_forgy <- function(data, k = 3)
 {
-  centroids <- data[sample(x = 1:dim(data)[1], size = k, replace = FALSE), ]
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
+  centroids <- as.data.frame(data[sample(x = 1:dim(data)[1], size = k, replace = FALSE), ])
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
   centroids <- centroids[c('WCCluster', setdiff(names(centroids), 'WCCluster'))]
@@ -57,6 +87,16 @@ wc_init_forgy <- function(data, k = 3)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_kmeansplusplus <- function(data, k = 3)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   centroids <- numeric(k)
   prob <- rep(1, dim(data)[1])
 
@@ -66,7 +106,7 @@ wc_init_kmeansplusplus <- function(data, k = 3)
     prob <- apply(X = data, MARGIN = 1, FUN = function(x) {sqrt(sum((x - data[centroids[c], ])^2))})
   }
 
-  centroids <- data[centroids, ]
+  centroids <- as.data.frame(data[centroids, ])
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -82,6 +122,16 @@ wc_init_kmeansplusplus <- function(data, k = 3)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_kkz <- function(data, k)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   centroids <- data[0, ]
   centroids <- rbind.data.frame(centroids, data[which.max(rowSums(apply(X = data, MARGIN = 2, FUN = function(x) sqrt(x^2/sum(x^2))))), ])
 
@@ -104,9 +154,19 @@ wc_init_kkz <- function(data, k)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_pca <- function(data, k)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   pca_model <- stats::prcomp(data)
 
-  centroids <- t(apply(X = data, MARGIN = 2, FUN = mean) + pca_model$rotation[, 1:k] * apply(X = data, MARGIN = 2, FUN = stats::sd))
+  centroids <- as.data.frame(t(apply(X = data, MARGIN = 2, FUN = mean) + pca_model$rotation[, 1:k] * apply(X = data, MARGIN = 2, FUN = stats::sd)))
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -122,6 +182,16 @@ wc_init_pca <- function(data, k)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_diana <- function(data, k)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   #require(cluster)
   model <- cluster::diana(x = data, diss = FALSE, stop.at.k = k)
 
@@ -142,6 +212,16 @@ wc_init_diana <- function(data, k)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_agnes <- function(data, k)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   #require(cluster)
   model <- cluster::agnes(x = data, diss = FALSE, method = 'average')
 
@@ -162,6 +242,16 @@ wc_init_agnes <- function(data, k)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_ward <- function(data, k)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
   #require(cluster)
   model <- cluster::agnes(x = data, diss = FALSE, method = 'ward')
 
@@ -182,7 +272,17 @@ wc_init_ward <- function(data, k)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_quantile <- function(data, k)
 {
-  centroids <- apply(X = data, MARGIN = 2, FUN = function(x) {stats::quantile(x = x, probs = (2 * 1:k - 1)/(2 * k))})
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(!is.numeric(k))
+  {
+    stop('k should be numeric')
+  }
+
+  centroids <- as.data.frame(apply(X = data, MARGIN = 2, FUN = function(x) {stats::quantile(x = x, probs = (2 * 1:k - 1)/(2 * k))}))
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k
@@ -198,7 +298,7 @@ wc_init_quantile <- function(data, k)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_init_ccia <- function(data, k)
 {
-  centroids <- apply(X = data, MARGIN = 2, FUN = function(x) {mean(x, na.rm = TRUE) + stats::sd(x, na.rm = TRUE) * stats::qnorm((2 * 1:k - 1)/(2 * k))})
+  centroids <- as.data.frame(apply(X = data, MARGIN = 2, FUN = function(x) {mean(x, na.rm = TRUE) + stats::sd(x, na.rm = TRUE) * stats::qnorm((2 * 1:k - 1)/(2 * k))}))
 
   centroids$WCCluster <- 1:k
   row.names(centroids) <- 1:k

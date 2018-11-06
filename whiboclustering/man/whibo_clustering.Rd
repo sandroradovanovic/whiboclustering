@@ -31,9 +31,6 @@ Object of type \code{whibo_cluster} which include Cluster Representatives (\code
 \description{
 Find Cluster model using White-Box Cluster Algorithm Design.
 }
-\details{
-TODO
-}
 \examples{
 data <- iris[, 1:4] #Take only numerical columns
 

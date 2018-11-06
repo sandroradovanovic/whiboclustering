@@ -17,7 +17,6 @@ source(file = 'R/wc_cluster_performance.R')
 #' @param max_iteration Number of iterations. Default value is 20.
 #' @param no_of_restarts Number of restarts of whole clustering procedure. Default value is 1.
 #' @return Object of type \code{whibo_cluster} which include Cluster Representatives (\code{centroids}), number of elements per cluster (\code{elements_per_cluster}), assignments (\code{assignments}), measures of cluster quality (\code{within_sum_of_squares}, \code{between_ss_div_total_ss} and \code{internal_measures_of_quality}), cluster models per iterations (\code{model_history}), iterations (\code{iterations}) and parameters used (\code{params})
-#' @details TODO
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 #' @seealso \code{plot.whibo_cluster}, \code{predict.whibo_cluster}
 #' @examples
@@ -81,7 +80,7 @@ whibo_clustering <- function(data, k = 3,
       iteration <- iteration + 1
 
       #RECALCULATE CLUSTER REPRESENTATIVES
-      centroids <- wc_recalculate(data = data, assignment = assignments, recalculate_type = recalculation_type)
+      centroids <- wc_recalculate(data = data, assignment = assignments, recalculate_type = recalculation_type, assignment_type = assignment_type)
       centroids_hist[[iteration]] <- centroids
 
       #ASSIGNING EXAMPLES TO CENTROIDS
@@ -98,8 +97,6 @@ whibo_clustering <- function(data, k = 3,
         centroids <- centroids[order(centroids$WCCluster, decreasing = FALSE), ]
       }
 
-      last_centroids <- centroids
-
       #CENTROIDS STOPPING
       if (sum(centroids != last_centroids) == 0)
       {
@@ -111,6 +108,8 @@ whibo_clustering <- function(data, k = 3,
       {
         stoping <- TRUE
       }
+
+      last_centroids <- centroids
     }
     #END WHILE
     elements_per_cluster <- table(assignments)

@@ -4,7 +4,7 @@
 \alias{wc_recalculate}
 \title{General Component for Cluster Representative update.}
 \usage{
-wc_recalculate(data, assignment, recalculate_type)
+wc_recalculate(data, assignment, recalculate_type, assignment_type = NULL)
 }
 \arguments{
 \item{data}{A dataset for which Cluster Representatives needs to be updated.}

@@ -52,9 +52,9 @@ Here one can find implemented solutions for RCs. Formulas and more detailed expl
 Normalization:
 * No normalization
 * Z transformation
-* L_{2} normalization
-* L_{1} normalization
-* L_{\infty} normalization
+* $L_{2}$ normalization
+* $L_{1}$ normalization
+* $L_{\infty}$ normalization
 * Max-Min normalization
 * Mean normalization
 * Logarithmic normalization

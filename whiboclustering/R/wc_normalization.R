@@ -12,6 +12,11 @@ wc_normalize <- function(data, normalization_type)
     stop('Please enter normalization function that is available in wc_norm_types data frame')
   }
 
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   #PREPERANG DATA IF NECCESSARY
   if(sum(is.na(data)) > 0)
   {
@@ -48,7 +53,12 @@ wc_normalize <- function(data, normalization_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_no <- function(data, model = NULL)
 {
-  norm_data <- data
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  norm_data <- as.matrix(data)
 
   output <- list('data' = norm_data, 'model' = NULL)
 
@@ -63,6 +73,11 @@ wc_norm_no <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_z <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     norm_data <- scale(x = data, center = TRUE, scale = TRUE)
@@ -86,6 +101,11 @@ wc_norm_z <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_l2 <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     model <- c()
@@ -112,6 +132,11 @@ wc_norm_l2 <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_l1 <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     model <- c()
@@ -138,6 +163,11 @@ wc_norm_l1 <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_linf <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     model <- c()
@@ -164,6 +194,11 @@ wc_norm_linf <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_max_min <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     mins <- c()
@@ -192,6 +227,11 @@ wc_norm_max_min <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_mean <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     means <- c()
@@ -220,6 +260,16 @@ wc_norm_mean <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_log <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(sum(data < 0) > 0)
+  {
+    stop('Negative values present')
+  }
+
   if(is.null(model))
   {
     model <- c()
@@ -246,6 +296,11 @@ wc_norm_log <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_non_monotonic <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     maxs <- c()
@@ -275,6 +330,11 @@ wc_norm_non_monotonic <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_comprehensive <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     mins <- c()
@@ -304,6 +364,11 @@ wc_norm_comprehensive <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_decimal_scaling <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     norm_data <- scale(x = data, center = FALSE, scale = 10^(ceiling(log10(apply(X = abs(data), MARGIN = 2, FUN = max)))))
@@ -326,6 +391,11 @@ wc_norm_decimal_scaling <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_sigmoid <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     norm_data <- (1 - exp(-scale(x = data, center = TRUE, scale = TRUE)))/(1 + exp(-scale(x = data, center = TRUE, scale = TRUE)))
@@ -348,6 +418,11 @@ wc_norm_sigmoid <- function(data, model = NULL)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_norm_softmax <- function(data, model = NULL)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
   if(is.null(model))
   {
     norm_data <- 1/(1 + exp(-scale(x = data, center = TRUE, scale = TRUE)))

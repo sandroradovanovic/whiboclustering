@@ -5,7 +5,7 @@
 #' @param recalculate_type String which signal which update type to be used. Check \code{wc_recalculate_types} for possible values.
 #' @return As a result new Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
-wc_recalculate <- function(data, assignment, recalculate_type)
+wc_recalculate <- function(data, assignment, recalculate_type, assignment_type = NULL)
 {
   # CHECKING FOR ERRORS
   if (!(tolower(recalculate_type) %in% tolower(wc_recalculate_types$Type)))
@@ -13,8 +13,30 @@ wc_recalculate <- function(data, assignment, recalculate_type)
     stop('Please enter assignment function that is available in wc_assign_types data frame')
   }
 
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   #RECALCULATE CLUSTER REPRESENTATIVE
-  centroids <- eval(call(name = as.character(wc_recalculate_types$Method[tolower(wc_recalculate_types$Type) == tolower(recalculate_type)]), data, assignment))
+  if(grepl(pattern = 'online', x = recalculate_type, ignore.case = TRUE))
+  {
+    centroids <- eval(call(name = as.character(wc_recalculate_types$Method[tolower(wc_recalculate_types$Type) == tolower(recalculate_type)]), data, assignment, assignment_type))
+  }
+  else
+  {
+    centroids <- eval(call(name = as.character(wc_recalculate_types$Method[tolower(wc_recalculate_types$Type) == tolower(recalculate_type)]), data, assignment))
+  }
 
   return(centroids)
 }
@@ -27,6 +49,21 @@ wc_recalculate <- function(data, assignment, recalculate_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_mean <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = mean)
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -40,6 +77,21 @@ wc_recalc_mean <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_median <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = stats::median)
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -51,8 +103,23 @@ wc_recalc_median <- function(data, assignment)
 #' @param assignment Vector of Cluster assignments.
 #' @return As a result new Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
-wc_recalc_geomtric_mean <- function(data, assignment)
+wc_recalc_geometric_mean <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = function(x) {prod(x)^(1/length(x))})
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -66,6 +133,21 @@ wc_recalc_geomtric_mean <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_harmonic_mean <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = function(x) {length(x)/(sum(1/x))})
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -79,6 +161,21 @@ wc_recalc_harmonic_mean <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_quadratic_mean <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = function(x) {sqrt(1/length(x) * sum(x^2))})
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -92,6 +189,21 @@ wc_recalc_quadratic_mean <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_trimmed_mean <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = mean, trim = 0.05)
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -105,6 +217,21 @@ wc_recalc_trimmed_mean <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_trimean <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = function(x) {0.5 * (stats::quantile(x)[[3]] + (stats::quantile(x)[[2]] + stats::quantile(x)[[4]])/2)})
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -118,6 +245,21 @@ wc_recalc_trimean <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_midhinge <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = function(x) {(stats::quantile(x)[[2]] + stats::quantile(x)[[4]])/2})
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -131,6 +273,21 @@ wc_recalc_midhinge <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_midrange <- function(data, assignment)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   new_centroids <- stats::aggregate(x = data, by = list(assignment), FUN = function(x) {(stats::quantile(x)[[1]] + stats::quantile(x)[[5]])/2})
   colnames(new_centroids)[1] <- "WCCluster"
   return(new_centroids)
@@ -145,6 +302,21 @@ wc_recalc_midrange <- function(data, assignment)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_mean <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -189,6 +361,21 @@ wc_recalc_online_mean <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_median <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -233,6 +420,21 @@ wc_recalc_online_median <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_trimmed_mean <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -277,6 +479,21 @@ wc_recalc_online_trimmed_mean <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_geometric_mean <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -321,6 +538,21 @@ wc_recalc_online_geometric_mean <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_harmonic_mean <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -365,6 +597,21 @@ wc_recalc_online_harmonic_mean <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_quadratic_mean <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -409,6 +656,21 @@ wc_recalc_online_quadratic_mean <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_trimean <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -453,6 +715,21 @@ wc_recalc_online_trimean <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_midhinge <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -497,6 +774,21 @@ wc_recalc_online_midhinge <- function(data, assignment, assignment_type)
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
 wc_recalc_online_midrange <- function(data, assignment, assignment_type)
 {
+  if(!(class(data) %in% c('data.frame', 'matrix')))
+  {
+    stop('Data should be data.frame or matrix')
+  }
+
+  if(class(assignment) != 'numeric')
+  {
+    stop('Assignment should be numeric vector')
+  }
+
+  if(nrow(data) != length(assignment))
+  {
+    stop('Data and Assignments are not in compliance')
+  }
+
   assignments <- assignment
   for(i in 1:nrow(data))
   {
@@ -539,7 +831,7 @@ wc_recalculate_types <- data.frame()
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Mean', 'Method' = 'wc_recalc_mean'))
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Median', 'Method' = 'wc_recalc_median'))
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Trimmed mean', 'Method' = 'wc_recalc_trimmed_mean'))
-wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Geometric mean', 'Method' = 'wc_recalc_geomtric_mean'))
+wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Geometric mean', 'Method' = 'wc_recalc_geometric_mean'))
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Harmonic mean', 'Method' = 'wc_recalc_harmonic_mean'))
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Quadratic mean', 'Method' = 'wc_recalc_quadratic_mean'))
 wc_recalculate_types <- rbind.data.frame(wc_recalculate_types, data.frame('Type' = 'Trimean', 'Method' = 'wc_recalc_trimean'))
