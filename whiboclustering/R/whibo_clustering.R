@@ -1,4 +1,10 @@
+#' As S4 class to represent WhiBo Cluster model
+#'
 #' @slot whibo_cluster Whibo Clustering object - list of objects for White-Box Clustering
+#' @rdname whibo_cluster
+#' @name whibo_cluster-class
+#' @exportClass whibo_cluster
+#' @author Sandro Radovanovic
 methods::setClass(Class = 'whibo_cluster', representation = 'list')
 
 source(file = 'R/wc_normalization.R')
@@ -215,6 +221,7 @@ registerS3method("show","whibo_cluster","show.whibo_cluster", envir = getNamespa
 
 #' Show White-Box Cluster Algorithm model
 #'
+#' @rdname print.whibo_cluster
 #' @param x WhiBo Cluster model.
 #' @param ... None of those will be used.
 #' @return Summary text about Cluster model.
@@ -285,6 +292,7 @@ registerS3method("print","whibo_cluster","print.whibo_cluster", envir = getNames
 #' @param ... None of those will be used.
 #' @return Summary text about Cluster model.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @export summary
 #' @seealso \code{print.whibo_cluster}, \code{head.whibo_cluster}, \code{show.whibo_cluster}
 #' @examples
 #' data <- iris[, 1:4] #Numerical data only
@@ -351,6 +359,7 @@ registerS3method("summary","whibo_cluster","summary.whibo_cluster", envir = getN
 #' @param ... None of those will be used.
 #' @return Summary text about Cluster model.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @export head
 #' @seealso \code{print.whibo_cluster}, \code{show.whibo_cluster}, \code{summary.whibo_cluster}
 #' @examples
 #' data <- iris[, 1:4] #Numerical data only
@@ -417,6 +426,7 @@ registerS3method("head","whibo_cluster","head.whibo_cluster", envir = getNamespa
 #' @param ... None of those will be used.
 #' @return Line plot with Cluster representatives
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @export plot
 #' @examples
 #' data <- iris[, 1:4] #Numerical data only
 #'
@@ -502,7 +512,7 @@ predict.whibo_cluster <- function(object, data, ...)
   }
 }
 
-registerS3method("predict","whibo_cluster","predict.whibo_cluster", envir = getNamespace("whiboclustering"))
+registerS3method(genname = 'predict',class = 'whibo_cluster', method = 'predict.whibo_cluster', envir = getNamespace("whiboclustering"))
 
 #Generate Manual file - Commented, but not forgoten
 #system("R CMD Rd2pdf . --title=WhiBoClustering yourpackagename --output=./manual.pdf --force --no-clean --internals")
