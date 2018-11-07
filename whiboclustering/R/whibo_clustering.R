@@ -221,7 +221,6 @@ registerS3method("show","whibo_cluster","show.whibo_cluster", envir = getNamespa
 
 #' Show White-Box Cluster Algorithm model
 #'
-#' @rdname print.whibo_cluster
 #' @param x WhiBo Cluster model.
 #' @param ... None of those will be used.
 #' @return Summary text about Cluster model.
