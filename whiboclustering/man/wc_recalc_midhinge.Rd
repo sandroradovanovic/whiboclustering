@@ -4,12 +4,14 @@
 \alias{wc_recalc_midhinge}
 \title{Solution for Cluster Representative update which uses Midhinge.}
 \usage{
-wc_recalc_midhinge(data, assignment)
+wc_recalc_midhinge(data, assignment, old_centroids = NULL)
 }
 \arguments{
 \item{data}{A dataset for which Cluster Representatives needs to be updated.}
 
 \item{assignment}{Vector of Cluster assignments.}
+
+\item{old_centroids}{Old centroids.}
 }
 \value{
 As a result new Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.

@@ -4,7 +4,8 @@
 \alias{wc_recalc_online_median}
 \title{Solution for Cluster Representative update which uses Online median.}
 \usage{
-wc_recalc_online_median(data, assignment, assignment_type)
+wc_recalc_online_median(data, assignment, assignment_type,
+  old_centroids = NULL)
 }
 \arguments{
 \item{data}{A dataset for which Cluster Representatives needs to be updated.}
@@ -12,6 +13,8 @@ wc_recalc_online_median(data, assignment, assignment_type)
 \item{assignment}{Vector of Cluster assignments.}
 
 \item{assignment_type}{Assignment type to be used.}
+
+\item{old_centroids}{Old centroids.}
 }
 \value{
 As a result new Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.

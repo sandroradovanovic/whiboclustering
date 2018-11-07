@@ -4,7 +4,8 @@
 \alias{wc_recalculate}
 \title{General Component for Cluster Representative update.}
 \usage{
-wc_recalculate(data, assignment, recalculate_type, assignment_type = NULL)
+wc_recalculate(data, assignment, recalculate_type, assignment_type = NULL,
+  old_centroids = NULL)
 }
 \arguments{
 \item{data}{A dataset for which Cluster Representatives needs to be updated.}
@@ -12,6 +13,10 @@ wc_recalculate(data, assignment, recalculate_type, assignment_type = NULL)
 \item{assignment}{Vector of Cluster assignments.}
 
 \item{recalculate_type}{String which signal which update type to be used. Check \code{wc_recalculate_types} for possible values.}
+
+\item{assignment_type}{Assignment type (Optional).}
+
+\item{old_centroids}{Old centroids (Optional).}
 }
 \value{
 As a result new Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.

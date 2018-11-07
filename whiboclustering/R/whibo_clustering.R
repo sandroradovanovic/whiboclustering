@@ -1,3 +1,4 @@
+#' @slot whibo_cluster Whibo Clustering object - list of objects for White-Box Clustering
 methods::setClass(Class = 'whibo_cluster', representation = 'list')
 
 source(file = 'R/wc_normalization.R')
@@ -144,6 +145,8 @@ whibo_clustering <- function(data, k = 3,
 
   return(model_output)
 }
+
+
 
 #' Show White-Box Cluster Algorithm model
 #'
@@ -500,3 +503,6 @@ predict.whibo_cluster <- function(object, data, ...)
 }
 
 registerS3method("predict","whibo_cluster","predict.whibo_cluster", envir = getNamespace("whiboclustering"))
+
+#Generate Manual file - Commented, but not forgoten
+#system("R CMD Rd2pdf . --title=WhiBoClustering yourpackagename --output=./manual.pdf --force --no-clean --internals")
