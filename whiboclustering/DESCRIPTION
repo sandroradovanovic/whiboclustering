@@ -1,7 +1,7 @@
 Package: whiboclustering
 Type: Package
 Title: White Box Clustering Algorithm Design
-Version: 0.1.1
+Version: 0.1.2
 Author: Sandro Radovanovic, Milan Vukicevic
 Maintainer: Sandro Radovanovic <sandro.radovanovic@gmail.com>
 Description: White Box Cluster Algorithm Design 

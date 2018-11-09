@@ -514,4 +514,4 @@ predict.whibo_cluster <- function(object, data, ...)
 registerS3method(genname = 'predict',class = 'whibo_cluster', method = 'predict.whibo_cluster', envir = getNamespace("whiboclustering"))
 
 #Generate Manual file - Commented, but not forgoten
-#system("R CMD Rd2pdf . --title=WhiBoClustering yourpackagename --output=./manual.pdf --force --no-clean --internals")
+#system("R CMD Rd2pdf . --title=WhiBoClustering yourpackagename --output=././manual.pdf --force --no-clean --internals")

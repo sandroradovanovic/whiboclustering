@@ -4,7 +4,7 @@
 \name{wc_assign_types}
 \alias{wc_assign_types}
 \title{Data frame for possible values of assignment types.}
-\format{An object of class \code{data.frame} with 24 rows and 2 columns.}
+\format{An object of class \code{data.frame} with 18 rows and 2 columns.}
 \usage{
 wc_assign_types
 }

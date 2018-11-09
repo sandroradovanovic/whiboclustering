@@ -119,16 +119,16 @@ test_that('Parameters missing for Sorensen assignment',
             expect_error(wc_assign_sorensen(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
           })
 
-test_that('Parameters missing for Soergel assignment',
-          {
-            expect_error(wc_assign_soergel())
-            expect_error(wc_assign_soergel(data = iris[, 1:4]))
-            expect_error(wc_assign_soergel(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-
-            #Wrong type of input
-            expect_error(wc_assign_soergel(data = iris[, 1:4], centroids = ''))
-            expect_error(wc_assign_soergel(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-          })
+# test_that('Parameters missing for Soergel assignment',
+#           {
+#             expect_error(wc_assign_soergel())
+#             expect_error(wc_assign_soergel(data = iris[, 1:4]))
+#             expect_error(wc_assign_soergel(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#
+#             #Wrong type of input
+#             expect_error(wc_assign_soergel(data = iris[, 1:4], centroids = ''))
+#             expect_error(wc_assign_soergel(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#           })
 
 test_that('Parameters missing for Kulczynski assignment',
           {
@@ -174,38 +174,38 @@ test_that('Parameters missing for Intersection assignment',
             expect_error(wc_assign_intersection(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
           })
 
-test_that('Parameters missing for Czekanowski assignment',
-          {
-            expect_error(wc_assign_czekanowski())
-            expect_error(wc_assign_czekanowski(data = iris[, 1:4]))
-            expect_error(wc_assign_czekanowski(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-
-            #Wrong type of input
-            expect_error(wc_assign_czekanowski(data = iris[, 1:4], centroids = ''))
-            expect_error(wc_assign_czekanowski(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-          })
-
-test_that('Parameters missing for Motika assignment',
-          {
-            expect_error(wc_assign_motika())
-            expect_error(wc_assign_motika(data = iris[, 1:4]))
-            expect_error(wc_assign_motika(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-
-            #Wrong type of input
-            expect_error(wc_assign_motika(data = iris[, 1:4], centroids = ''))
-            expect_error(wc_assign_motika(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-          })
-
-test_that('Parameters missing for Ruzicka assignment',
-          {
-            expect_error(wc_assign_ruzicka())
-            expect_error(wc_assign_ruzicka(data = iris[, 1:4]))
-            expect_error(wc_assign_ruzicka(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-
-            #Wrong type of input
-            expect_error(wc_assign_ruzicka(data = iris[, 1:4], centroids = ''))
-            expect_error(wc_assign_ruzicka(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-          })
+# test_that('Parameters missing for Czekanowski assignment',
+#           {
+#             expect_error(wc_assign_czekanowski())
+#             expect_error(wc_assign_czekanowski(data = iris[, 1:4]))
+#             expect_error(wc_assign_czekanowski(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#
+#             #Wrong type of input
+#             expect_error(wc_assign_czekanowski(data = iris[, 1:4], centroids = ''))
+#             expect_error(wc_assign_czekanowski(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#           })
+#
+# test_that('Parameters missing for Motika assignment',
+#           {
+#             expect_error(wc_assign_motika())
+#             expect_error(wc_assign_motika(data = iris[, 1:4]))
+#             expect_error(wc_assign_motika(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#
+#             #Wrong type of input
+#             expect_error(wc_assign_motika(data = iris[, 1:4], centroids = ''))
+#             expect_error(wc_assign_motika(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#           })
+#
+# test_that('Parameters missing for Ruzicka assignment',
+#           {
+#             expect_error(wc_assign_ruzicka())
+#             expect_error(wc_assign_ruzicka(data = iris[, 1:4]))
+#             expect_error(wc_assign_ruzicka(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#
+#             #Wrong type of input
+#             expect_error(wc_assign_ruzicka(data = iris[, 1:4], centroids = ''))
+#             expect_error(wc_assign_ruzicka(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#           })
 
 test_that('Parameters missing for Inner Product assignment',
           {
@@ -218,27 +218,27 @@ test_that('Parameters missing for Inner Product assignment',
             expect_error(wc_assign_inner_product(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
           })
 
-test_that('Parameters missing for Jaccard assignment',
-          {
-            expect_error(wc_assign_jaccard_numerical())
-            expect_error(wc_assign_jaccard_numerical(data = iris[, 1:4]))
-            expect_error(wc_assign_jaccard_numerical(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-
-            #Wrong type of input
-            expect_error(wc_assign_jaccard_numerical(data = iris[, 1:4], centroids = ''))
-            expect_error(wc_assign_jaccard_numerical(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-          })
-
-test_that('Parameters missing for Dice assignment',
-          {
-            expect_error(wc_assign_dice_numerical())
-            expect_error(wc_assign_dice_numerical(data = iris[, 1:4]))
-            expect_error(wc_assign_dice_numerical(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-
-            #Wrong type of input
-            expect_error(wc_assign_dice_numerical(data = iris[, 1:4], centroids = ''))
-            expect_error(wc_assign_dice_numerical(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
-          })
+# test_that('Parameters missing for Jaccard assignment',
+#           {
+#             expect_error(wc_assign_jaccard_numerical())
+#             expect_error(wc_assign_jaccard_numerical(data = iris[, 1:4]))
+#             expect_error(wc_assign_jaccard_numerical(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#
+#             #Wrong type of input
+#             expect_error(wc_assign_jaccard_numerical(data = iris[, 1:4], centroids = ''))
+#             expect_error(wc_assign_jaccard_numerical(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#           })
+#
+# test_that('Parameters missing for Dice assignment',
+#           {
+#             expect_error(wc_assign_dice_numerical())
+#             expect_error(wc_assign_dice_numerical(data = iris[, 1:4]))
+#             expect_error(wc_assign_dice_numerical(centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#
+#             #Wrong type of input
+#             expect_error(wc_assign_dice_numerical(data = iris[, 1:4], centroids = ''))
+#             expect_error(wc_assign_dice_numerical(data = '', centroids =  wc_initialize(data = data, k = 3, initialization_type = 'Random')))
+#           })
 
 test_that('Parameters missing for Fidelity assignment',
           {
@@ -414,21 +414,21 @@ test_that('Result of Sorensen assignment is vector of assignments with same numb
             expect_error(wc_assign_sorensen(data = iris[, 1:4], centroids = data[1:3, 1:3]))
           })
 
-test_that('Result of Soergel assignment is vector of assignments with same number of elements as number of rows in data',
-          {
-            data <- iris[, 1:4]
-            centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
-            n_rows <- nrow(data)
-
-            set.seed(1989)
-            assignments <- wc_assign_soergel(data = data, centroids = centroids)
-
-            expect_true(is.numeric(assignments))
-            expect_true(length(assignments) == n_rows)
-
-            #Data and centroids not compatible (not same number of columns)
-            expect_error(wc_assign_soergel(data = iris[, 1:4], centroids = data[1:3, 1:3]))
-          })
+# test_that('Result of Soergel assignment is vector of assignments with same number of elements as number of rows in data',
+#           {
+#             data <- iris[, 1:4]
+#             centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
+#             n_rows <- nrow(data)
+#
+#             set.seed(1989)
+#             assignments <- wc_assign_soergel(data = data, centroids = centroids)
+#
+#             expect_true(is.numeric(assignments))
+#             expect_true(length(assignments) == n_rows)
+#
+#             #Data and centroids not compatible (not same number of columns)
+#             expect_error(wc_assign_soergel(data = iris[, 1:4], centroids = data[1:3, 1:3]))
+#           })
 
 test_that('Result of Kulczynski assignment is vector of assignments with same number of elements as number of rows in data',
           {
@@ -494,53 +494,53 @@ test_that('Result of Inersection assignment is vector of assignments with same n
             expect_error(wc_assign_intersection(data = iris[, 1:4], centroids = data[1:3, 1:3]))
           })
 
-test_that('Result of Czekanowski assignment is vector of assignments with same number of elements as number of rows in data',
-          {
-            data <- iris[, 1:4]
-            centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
-            n_rows <- nrow(data)
-
-            set.seed(1989)
-            assignments <- wc_assign_czekanowski(data = data, centroids = centroids)
-
-            expect_true(is.numeric(assignments))
-            expect_true(length(assignments) == n_rows)
-
-            #Data and centroids not compatible (not same number of columns)
-            expect_error(wc_assign_czekanowski(data = iris[, 1:4], centroids = data[1:3, 1:3]))
-          })
-
-test_that('Result of Motika assignment is vector of assignments with same number of elements as number of rows in data',
-          {
-            data <- iris[, 1:4]
-            centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
-            n_rows <- nrow(data)
-
-            set.seed(1989)
-            assignments <- wc_assign_motika(data = data, centroids = centroids)
-
-            expect_true(is.numeric(assignments))
-            expect_true(length(assignments) == n_rows)
-
-            #Data and centroids not compatible (not same number of columns)
-            expect_error(wc_assign_motika(data = iris[, 1:4], centroids = data[1:3, 1:3]))
-          })
-
-test_that('Result of Ruzicka assignment is vector of assignments with same number of elements as number of rows in data',
-          {
-            data <- iris[, 1:4]
-            centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
-            n_rows <- nrow(data)
-
-            set.seed(1989)
-            assignments <- wc_assign_ruzicka(data = data, centroids = centroids)
-
-            expect_true(is.numeric(assignments))
-            expect_true(length(assignments) == n_rows)
-
-            #Data and centroids not compatible (not same number of columns)
-            expect_error(wc_assign_ruzicka(data = iris[, 1:4], centroids = data[1:3, 1:3]))
-          })
+# test_that('Result of Czekanowski assignment is vector of assignments with same number of elements as number of rows in data',
+#           {
+#             data <- iris[, 1:4]
+#             centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
+#             n_rows <- nrow(data)
+#
+#             set.seed(1989)
+#             assignments <- wc_assign_czekanowski(data = data, centroids = centroids)
+#
+#             expect_true(is.numeric(assignments))
+#             expect_true(length(assignments) == n_rows)
+#
+#             #Data and centroids not compatible (not same number of columns)
+#             expect_error(wc_assign_czekanowski(data = iris[, 1:4], centroids = data[1:3, 1:3]))
+#           })
+#
+# test_that('Result of Motika assignment is vector of assignments with same number of elements as number of rows in data',
+#           {
+#             data <- iris[, 1:4]
+#             centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
+#             n_rows <- nrow(data)
+#
+#             set.seed(1989)
+#             assignments <- wc_assign_motika(data = data, centroids = centroids)
+#
+#             expect_true(is.numeric(assignments))
+#             expect_true(length(assignments) == n_rows)
+#
+#             #Data and centroids not compatible (not same number of columns)
+#             expect_error(wc_assign_motika(data = iris[, 1:4], centroids = data[1:3, 1:3]))
+#           })
+#
+# test_that('Result of Ruzicka assignment is vector of assignments with same number of elements as number of rows in data',
+#           {
+#             data <- iris[, 1:4]
+#             centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
+#             n_rows <- nrow(data)
+#
+#             set.seed(1989)
+#             assignments <- wc_assign_ruzicka(data = data, centroids = centroids)
+#
+#             expect_true(is.numeric(assignments))
+#             expect_true(length(assignments) == n_rows)
+#
+#             #Data and centroids not compatible (not same number of columns)
+#             expect_error(wc_assign_ruzicka(data = iris[, 1:4], centroids = data[1:3, 1:3]))
+#           })
 
 test_that('Result of Tanimoto assignment is vector of assignments with same number of elements as number of rows in data',
           {
@@ -574,37 +574,37 @@ test_that('Result of Inner Product assignment is vector of assignments with same
             expect_error(wc_assign_inner_product(data = iris[, 1:4], centroids = data[1:3, 1:3]))
           })
 
-test_that('Result of Jaccard assignment is vector of assignments with same number of elements as number of rows in data',
-          {
-            data <- iris[, 1:4]
-            centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
-            n_rows <- nrow(data)
-
-            set.seed(1989)
-            assignments <- wc_assign_jaccard_numerical(data = data, centroids = centroids)
-
-            expect_true(is.numeric(assignments))
-            expect_true(length(assignments) == n_rows)
-
-            #Data and centroids not compatible (not same number of columns)
-            expect_error(wc_assign_jaccard_numerical(data = iris[, 1:4], centroids = data[1:3, 1:3]))
-          })
-
-test_that('Result of Dice assignment is vector of assignments with same number of elements as number of rows in data',
-          {
-            data <- iris[, 1:4]
-            centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
-            n_rows <- nrow(data)
-
-            set.seed(1989)
-            assignments <- wc_assign_dice_numerical(data = data, centroids = centroids)
-
-            expect_true(is.numeric(assignments))
-            expect_true(length(assignments) == n_rows)
-
-            #Data and centroids not compatible (not same number of columns)
-            expect_error(wc_assign_dice_numerical(data = iris[, 1:4], centroids = data[1:3, 1:3]))
-          })
+# test_that('Result of Jaccard assignment is vector of assignments with same number of elements as number of rows in data',
+#           {
+#             data <- iris[, 1:4]
+#             centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
+#             n_rows <- nrow(data)
+#
+#             set.seed(1989)
+#             assignments <- wc_assign_jaccard_numerical(data = data, centroids = centroids)
+#
+#             expect_true(is.numeric(assignments))
+#             expect_true(length(assignments) == n_rows)
+#
+#             #Data and centroids not compatible (not same number of columns)
+#             expect_error(wc_assign_jaccard_numerical(data = iris[, 1:4], centroids = data[1:3, 1:3]))
+#           })
+#
+# test_that('Result of Dice assignment is vector of assignments with same number of elements as number of rows in data',
+#           {
+#             data <- iris[, 1:4]
+#             centroids <- wc_initialize(data = data, k = 3, initialization_type = 'Random')
+#             n_rows <- nrow(data)
+#
+#             set.seed(1989)
+#             assignments <- wc_assign_dice_numerical(data = data, centroids = centroids)
+#
+#             expect_true(is.numeric(assignments))
+#             expect_true(length(assignments) == n_rows)
+#
+#             #Data and centroids not compatible (not same number of columns)
+#             expect_error(wc_assign_dice_numerical(data = iris[, 1:4], centroids = data[1:3, 1:3]))
+#           })
 
 test_that('Result of Fidelity assignment is vector of assignments with same number of elements as number of rows in data',
           {
