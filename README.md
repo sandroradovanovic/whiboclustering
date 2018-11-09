@@ -85,18 +85,12 @@ Measuring Distance and Cluster Assignment:
 * Cosine
 * Correlation
 * Sorensen
-* Soergel
 * Kulczynski
 * Lorentzian
 * Gower
 * Inersection
-* Czekanowski
-* Motika
-* Ruzicka
 * Tanimoto
 * Inner Product
-* Jaccard
-* Dice
 * Fidelity
 * Bhattacharyya
 * Hellinger

@@ -22,6 +22,10 @@ wc_eval_within_sum_of_squares <- function(data, centroids, assignment)
 
   for(c in 1:nrow(centroids))
   {
+    if (sum(assignment == c) == 0)
+    {
+      intra_cluster_distances <- c(intra_cluster_distances, 0)
+    }
     intra_cluster_distances <- c(intra_cluster_distances, mean(apply(X = t(apply(X = data[assignment == c, ], MARGIN = 1, FUN = '-', as.matrix(centroids[c, !grepl('WCCluster', colnames(centroids))]))^2), MARGIN = 1, FUN = sum)))
   }
   return(intra_cluster_distances)
