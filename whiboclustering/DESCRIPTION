@@ -3,16 +3,11 @@ Type: Package
 Title: White Box Clustering Algorithm Design
 Version: 0.1.2
 Author: Sandro Radovanovic <sandro.radovanovic@gmail.com>, Milan Vukicevic <vucko83@gmail.com>
-Maintainer: Sandro Radovanovic <sandro.radovanovic@gmail.com>, Milan Vukicevic <vucko83@gmail.com>
+Maintainer: Sandro Radovanovic <sandro.radovanovic@gmail.com>
 Description: White Box Cluster Algorithm Design allows you to create Representative based cluster algorithm by using reusable components. 
      This way one can recreate already available cluster algorithms (i.e. K-Means, K-Means++, PAM) 
      but also create new cluster algorithms not available in the literature or any other software. 
-     Interested readers are reffered to following papers.
-     Delibasic, B., Kirchner, K., Ruhland, J., Jovanovic, M., Vukicevic, M. (2009) <doi: https://dx.doi.org/10.1007/s10462-009-9133-6>.
-     Vukicevic, M., Delibasic, B., Jovanovic, M., Suknovic, M., & Obradovic, Z. (2011, November) <doi: https://dx.doi.org/10.1109/BIBM.2011.97>.
-     Delibasic, B., Vukicevic, M., Jovanovic, M., Kirchner, K., Ruhland, J., & Suknovic, M. (2012) <doi: https://dx.doi.org/10.1016/j.datak.2012.03.005>.
-     Vukicevic, M., Kirchner, K., Delibasic, B., Jovanovic, M., Ruhland, J., & Suknovic, M. (2013) <doi: https://dx.doi.org/10.1007/s10115-012-0542-5>.
-     Vukicevic, M., Radovanovic, S., Delibasic, B., & Suknovic, M. (2016) <doi: https://dx.doi.org/10.1504/IJDMB.2016.074682>.
+     For more information see Delibasic et al. (2009) <doi:10.1007/s10462-009-9133-6> and Delibasic et al. (2012) <doi:10.1016/j.datak.2012.03.005>.
 License: GPL-3
 Depends: graphics, stats, clusterCrit, cluster
 Suggests: methods, testthat
