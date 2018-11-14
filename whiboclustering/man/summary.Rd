@@ -22,9 +22,10 @@ data <- iris[, 1:4] #Numerical data only
 
 model <- whibo_clustering(data = data, k = 3)
 summary(model)
+
 }
 \seealso{
-\code{print.whibo_cluster}, \code{head.whibo_cluster}, \code{show.whibo_cluster}
+\code{print.whibo_cluster}
 }
 \author{
 Sandro Radovanovic \email{sandro.radovanovic@gmail.com}

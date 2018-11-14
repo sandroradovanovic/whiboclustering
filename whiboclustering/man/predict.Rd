@@ -24,6 +24,7 @@ data <- iris[1:100, 1:4] #Numerical data only and first 100 rows
 
 model <- whibo_clustering(data = data, k = 3)
 predict(object = model, data = iris[101:150, 1:4])
+
 }
 \author{
 Sandro Radovanovic \email{sandro.radovanovic@gmail.com}

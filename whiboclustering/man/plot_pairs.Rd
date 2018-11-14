@@ -24,6 +24,7 @@ model <- whibo_clustering(data = data, k = 3)
 plot_pairs(model) #Ploting Cluster Representatives only
 
 plot_pairs(model, data) #Ploting Cluster Representatives and Data
+
 }
 \author{
 Sandro Radovanovic \email{sandro.radovanovic@gmail.com}

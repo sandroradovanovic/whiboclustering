@@ -180,6 +180,7 @@ wc_init_pca <- function(data, k)
 #' @param k A number of Cluster Representatives to be initialized.
 #' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom cluster diana
 wc_init_diana <- function(data, k)
 {
   if(!(class(data) %in% c('data.frame', 'matrix')))
@@ -210,6 +211,7 @@ wc_init_diana <- function(data, k)
 #' @param k A number of Cluster Representatives to be initialized.
 #' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom cluster agnes
 wc_init_agnes <- function(data, k)
 {
   if(!(class(data) %in% c('data.frame', 'matrix')))
@@ -240,6 +242,7 @@ wc_init_agnes <- function(data, k)
 #' @param k A number of Cluster Representatives to be initialized.
 #' @return As a result initial Cluster Representatives are obtained. Result is in for of data.frame or data.matrix.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom cluster agnes
 wc_init_ward <- function(data, k)
 {
   if(!(class(data) %in% c('data.frame', 'matrix')))

@@ -42,6 +42,7 @@ model
 model <- whibo_clustering(data = data, k = 3,
      normalization_type = 'Z', cluster_initialization_type = 'Ward',
      assignment_type = 'Correlation', recalculation_type = 'Trimean')
+
 }
 \seealso{
 \code{plot.whibo_cluster}, \code{predict.whibo_cluster}

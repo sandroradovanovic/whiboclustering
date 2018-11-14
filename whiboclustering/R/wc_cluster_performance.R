@@ -49,6 +49,7 @@ wc_eval_between_sum_of_squares <- function(data, centroids, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_ball_hall <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'ball_hall')[[1]])
@@ -60,6 +61,7 @@ wc_eval_ball_hall <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_banfeld_raftery <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'banfeld_raftery')[[1]])
@@ -71,6 +73,7 @@ wc_eval_banfeld_raftery <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_c_index <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'c_index')[[1]])
@@ -82,6 +85,7 @@ wc_eval_c_index <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_calinski_harabasz <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'calinski_harabasz')[[1]])
@@ -93,6 +97,7 @@ wc_eval_calinski_harabasz <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_davies_bouldin <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'davies_bouldin')[[1]])
@@ -104,6 +109,7 @@ wc_eval_davies_bouldin <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_det_ratio <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'det_ratio')[[1]])
@@ -115,6 +121,7 @@ wc_eval_det_ratio <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_dunn <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'dunn')[[1]])
@@ -126,6 +133,7 @@ wc_eval_dunn <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_gamma <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'gamma')[[1]])
@@ -137,6 +145,7 @@ wc_eval_gamma <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_g_plus <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'g_plus')[[1]])
@@ -148,6 +157,7 @@ wc_eval_g_plus <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_silhouette <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'silhouette')[[1]])
@@ -159,6 +169,7 @@ wc_eval_silhouette <- function(data, assignment)
 #' @param assignment Vector of assignments.
 #' @return A value of internal cluster quality evaluation measure.
 #' @author Sandro Radovanovic \email{sandro.radovanovic@@gmail.com}
+#' @importFrom clusterCrit intCriteria
 wc_eval_xie_beni <- function(data, assignment)
 {
   return(clusterCrit::intCriteria(traj = as.matrix(data), part = as.integer(assignment), crit = 'xie_beni')[[1]])

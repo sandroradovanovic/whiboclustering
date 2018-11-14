@@ -11,7 +11,8 @@ Description: White Box Cluster Algorithm Design
     also create new cluster algorithms not available in the literature
     or any other software.
 License: GPL-3 + file LICENSE
-Imports: graphics, stats, clusterCrit, SNFtool, cluster, methods, testthat
+Depends: graphics, stats, clusterCrit, cluster
+Suggests: methods, testthat
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
